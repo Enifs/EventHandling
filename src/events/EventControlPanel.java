@@ -1,13 +1,9 @@
 package events;
 
-
 import events.regularevents.RegularEvent;
 import events.regularevents.RegularEventDispatcher;
 
 
-/**
- * Created by Didzis on 06.06.2015..
- */
 public class EventControlPanel
 {
 	public EventControlPanel()

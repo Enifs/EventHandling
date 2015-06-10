@@ -1,5 +1,3 @@
-
-
 package events.regularevents;
 
 import events.Event;

@@ -4,9 +4,6 @@ import events.EventControlPanel;
 import events.EventHandler;
 
 
-/**
- * Created by Didzis on 07.06.2015..
- */
 public class CountdownEventHandler implements EventHandler<CountdownEvent>
 {
 	@Override

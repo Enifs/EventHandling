@@ -1,6 +1,4 @@
-
 package events.regularevents;
-
 
 import java.util.ArrayList;
 import java.util.TreeSet;

@@ -3,9 +3,6 @@ package events.sample;
 import events.EventHandler;
 
 
-/**
- * Created by Didzis on 07.06.2015..
- */
 public class HelloWorldEventHandler implements EventHandler<HelloWorldEvent>
 {
 	@Override

@@ -8,9 +8,9 @@ public class MasterEventHandler implements Runnable
 	{
 		while(true)
 		{
-			if (!EventQueue.events.isEmpty())
+			if (EventControlPanel.hasEvents())
 			{
-				Event event = EventQueue.events.poll();
+				Event event = EventControlPanel.nextEvent();
 				event.getEventHandler().handleEvent(event);
 			}
 			try

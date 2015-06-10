@@ -19,7 +19,4 @@ public class EventQueue extends LinkedList<Event>
 
 		return rv;
 	}
-
-
-	public static EventQueue events = new EventQueue();
 }

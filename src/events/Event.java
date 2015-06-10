@@ -9,7 +9,7 @@ public abstract class Event
 {
 	public void fire()
 	{
-		EventQueue.events.offer(this);
+		EventControlPanel.fireEvent(this);
 	}
 
 	protected EventHandler getEventHandler()

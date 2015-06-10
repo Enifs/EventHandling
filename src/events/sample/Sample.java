@@ -16,7 +16,7 @@ public class Sample
 
 	private void run()
 	{
-		EventControlPanel.startEventHandling();
+		new EventControlPanel();
 
 		EventControlPanel.registerRegularEvent(new CountdownEvent(500));
 

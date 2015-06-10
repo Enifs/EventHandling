@@ -10,8 +10,16 @@ import events.regularevents.RegularEventDispatcher;
  */
 public class EventControlPanel
 {
-	public static void startEventHandling()
+	public EventControlPanel()
 	{
+		this.startEventHandling();
+	}
+
+
+	public void startEventHandling()
+	{
+		EventControlPanel.events = new EventQueue();
+
 		EventControlPanel.masterEventHandler = new MasterEventHandler();
 		EventControlPanel.eventThread = new Thread(masterEventHandler);
 		EventControlPanel.eventThread.start();
@@ -20,10 +28,10 @@ public class EventControlPanel
 		EventControlPanel.regularEventThread = new Thread(EventControlPanel.dispatcher);
 		EventControlPanel.regularEventThread.start();
 
-		EventQueue.events.clear();
+		EventControlPanel.events.clear();
 	}
 
-	public static void stopEventHandling()
+	public void stopEventHandling()
 	{
 		// todo: stop is deprecated maybe a better solutions exist.
 		EventControlPanel.eventThread.stop();
@@ -32,7 +40,7 @@ public class EventControlPanel
 		EventControlPanel.regularEventThread.stop();
 		EventControlPanel.dispatcher = null;
 
-		EventQueue.events.clear();
+		EventControlPanel.events.clear();
 	}
 
 	public static void registerRegularEvent(RegularEvent event)
@@ -45,8 +53,26 @@ public class EventControlPanel
 		EventControlPanel.dispatcher.unregisterEvent(event);
 	}
 
+
+	public static void fireEvent(Event event)
+	{
+		EventControlPanel.events.offer(event);
+	}
+
+	public static boolean hasEvents()
+	{
+		return !EventControlPanel.events.isEmpty();
+	}
+
+	public static Event nextEvent()
+	{
+		return EventControlPanel.events.poll();
+	}
+
+
 	private static RegularEventDispatcher dispatcher;
 	private static Thread regularEventThread;
 	private static Thread eventThread;
 	private static MasterEventHandler masterEventHandler;
+	private static EventQueue events;
 }

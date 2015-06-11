@@ -1,3 +1,6 @@
+// Copyright (c) 2015.
+// Author: Enifs
+
 package events;
 
 import java.util.HashSet;

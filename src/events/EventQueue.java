@@ -6,6 +6,9 @@ package events;
 import java.util.LinkedList;
 
 
+/**
+ * This is the queue where all the events are queued up for execution.
+ */
 public class EventQueue extends LinkedList<Event>
 {
 	@Override

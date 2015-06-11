@@ -4,6 +4,10 @@
 package events;
 
 
+/**
+ * This class constantly checks the event queue for new events
+ * Users should not use this class on its own. ECP - Event Control panel takes care of managing it.
+ */
 public class MasterEventHandler implements Runnable
 {
 	@Override

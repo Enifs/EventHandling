@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.TreeSet;
 
 
+/**
+ * This class manages regular events.
+ */
 public class RegularEventDispatcher implements Runnable
 {
 	@Override

@@ -21,7 +21,11 @@ public class MasterEventHandler implements Runnable
 			if (EventControlPanel.hasEvents())
 			{
 				Event event = EventControlPanel.nextEvent();
-				event.getEventHandler().handleEvent(event);
+
+				if (event != null)
+				{
+					event.getEventHandler().handleEvent(event);
+				}
 			}
 
 			dispatcher.work();
@@ -35,6 +39,15 @@ public class MasterEventHandler implements Runnable
 				e.printStackTrace();
 			}
 		}
+	}
+
+
+	/**
+	 * A method for discarding all previously registered regular events.
+	 */
+	public void clearAllRegularEvents()
+	{
+		this.dispatcher.clearAllRegisteredEvents();
 	}
 
 	protected RegularEventDispatcher dispatcher = new RegularEventDispatcher();

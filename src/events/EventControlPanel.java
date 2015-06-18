@@ -29,6 +29,7 @@ public class EventControlPanel
 	 */
 	public void startEventHandling()
 	{
+		EventControlPanel.stop = false;
 		EventControlPanel.events = new EventQueue();
 
 		EventControlPanel.masterEventHandler = new MasterEventHandler();

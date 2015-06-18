@@ -35,10 +35,6 @@ public class EventControlPanel
 		EventControlPanel.eventThread = new Thread(masterEventHandler);
 		EventControlPanel.eventThread.start();
 
-		EventControlPanel.dispatcher = new RegularEventDispatcher();
-		EventControlPanel.regularEventThread = new Thread(EventControlPanel.dispatcher);
-		EventControlPanel.regularEventThread.start();
-
 		EventControlPanel.events.clear();
 	}
 
@@ -46,16 +42,10 @@ public class EventControlPanel
 	/**
 	 * Off switch for this system.
 	 */
-	public void stopEventHandling()
+	public synchronized static void stopEventHandling()
 	{
-		// todo: stop is deprecated maybe a better solutions exist.
-		EventControlPanel.eventThread.stop();
-		EventControlPanel.masterEventHandler = null;
-
-		EventControlPanel.regularEventThread.stop();
-		EventControlPanel.dispatcher = null;
-
-		EventControlPanel.events.clear();
+		EventControlPanel.masterEventHandler.dispatcher.clearAllRegisteredEvents();
+		EventControlPanel.stop = true;
 	}
 
 
@@ -65,7 +55,7 @@ public class EventControlPanel
 	 */
 	public static void registerRegularEvent(RegularEvent event)
 	{
-		EventControlPanel.dispatcher.registerEvent(event);
+		EventControlPanel.masterEventHandler.dispatcher.registerEvent(event);
 	}
 
 
@@ -75,7 +65,7 @@ public class EventControlPanel
 	 */
 	public static void unRegisterRegularEvent(RegularEvent event)
 	{
-		EventControlPanel.dispatcher.unregisterEvent(event);
+		EventControlPanel.masterEventHandler.dispatcher.unregisterEvent(event);
 	}
 
 
@@ -85,7 +75,10 @@ public class EventControlPanel
 	 */
 	public static void fireEvent(Event event)
 	{
-		EventControlPanel.events.offer(event);
+		if (!EventControlPanel.stop)
+		{
+			EventControlPanel.events.offer(event);
+		}
 	}
 
 
@@ -110,9 +103,9 @@ public class EventControlPanel
 	}
 
 
-	private static RegularEventDispatcher dispatcher;
-	private static Thread regularEventThread;
 	private static Thread eventThread;
 	private static MasterEventHandler masterEventHandler;
 	private static EventQueue events;
+
+	public static boolean stop = false;
 }

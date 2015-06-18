@@ -22,12 +22,14 @@ public class Sample
 
 		try
 		{
-			Thread.sleep(5000);
+			Thread.sleep(5500);
 		} catch (InterruptedException e)
 		{
 			e.printStackTrace();
 		}
 
 		new HelloWorldEvent().fire();
+
+		EventControlPanel.stopEventHandling();
 	}
 }

@@ -6,6 +6,8 @@ package events.regularevents;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
+import events.EventControlPanel;
+
 
 /**
  * This class manages regular events.
@@ -15,7 +17,7 @@ public class RegularEventDispatcher implements Runnable
 	@Override
 	public void run()
 	{
-		while(true)
+		while(!EventControlPanel.stop)
 		{
 			if (!this.treeSet.isEmpty())
 			{
@@ -68,8 +70,36 @@ public class RegularEventDispatcher implements Runnable
 		return new ExecutionTimeWrapper(event, System.currentTimeMillis() + event.frequency);
 	}
 
+
+	public void work()
+	{
+		if (!this.treeSet.isEmpty())
+		{
+			ExecutionTimeWrapper eventWrapper = treeSet.first();
+
+			if (eventWrapper.nextExecution <= System.currentTimeMillis())
+			{
+				treeSet.pollFirst();
+				eventWrapper.event.fire();
+
+				if (this.regularGameEvents.contains(eventWrapper.event))
+				{
+					treeSet.add(planNextExecution(eventWrapper.event));
+				}
+			}
+		}
+	}
+
+
+	public void clearAllRegisteredEvents()
+	{
+		this.treeSet.clear();
+		this.regularGameEvents.clear();
+	}
+
 	ArrayList<RegularEvent> regularGameEvents = new ArrayList<RegularEvent>();
 	TreeSet<ExecutionTimeWrapper> treeSet = new TreeSet<ExecutionTimeWrapper>();
+
 
 	private class ExecutionTimeWrapper implements Comparable<ExecutionTimeWrapper>
 	{

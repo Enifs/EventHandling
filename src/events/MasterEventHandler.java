@@ -24,6 +24,11 @@ public class MasterEventHandler implements Runnable
 
 				if (event != null)
 				{
+					if (EventControlPanel.consoleLogging)
+					{
+						System.out.println(event.getClass() + " is being handled. " + "< " + event.toString() + " >");
+					}
+
 					event.getEventHandler().handleEvent(event);
 				}
 			}

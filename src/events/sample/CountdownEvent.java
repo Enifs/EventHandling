@@ -14,5 +14,13 @@ public class CountdownEvent extends RegularEvent
 		this.setEventHandler(new CountdownEventHandler());
 	}
 
+
+	@Override
+	public String toString()
+	{
+		return "Countdown " + x;
+	}
+
+
 	protected int x = 10;
 }

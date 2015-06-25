@@ -13,5 +13,13 @@ public class HelloWorldEvent extends Event
 		this.setEventHandler(new HelloWorldEventHandler());
 	}
 
+
+	@Override
+	public String toString()
+	{
+		return "This is a 'Hello World' event!";
+	}
+
+
 	protected String message = "Hello World!";
 }

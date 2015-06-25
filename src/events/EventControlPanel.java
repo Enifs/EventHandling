@@ -104,9 +104,32 @@ public class EventControlPanel
 	}
 
 
+	public static void toggleConsoleLogging()
+	{
+		if (EventControlPanel.consoleLogging)
+		{
+			EventControlPanel.consoleLogging = false;
+		}
+		else
+		{
+			EventControlPanel.consoleLogging = true;
+		}
+	}
+
+	@Override
+	protected void finalize() throws Throwable
+	{
+		super.finalize();
+		EventControlPanel.stopEventHandling();
+		EventControlPanel.masterEventHandler.clearAllRegularEvents();
+		EventControlPanel.eventThread.stop();
+	}
+
+
 	private static Thread eventThread;
 	private static MasterEventHandler masterEventHandler;
 	private static EventQueue events;
 
 	public static boolean stop = false;
+	protected static boolean consoleLogging = false;
 }

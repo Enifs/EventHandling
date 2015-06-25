@@ -17,13 +17,15 @@ public class Sample
 	private void run()
 	{
 		new EventControlPanel();
+		EventControlPanel.toggleConsoleLogging();
 
 		EventControlPanel.registerRegularEvent(new CountdownEvent(500));
 
 		try
 		{
 			Thread.sleep(5500);
-		} catch (InterruptedException e)
+		}
+		catch (InterruptedException e)
 		{
 			e.printStackTrace();
 		}

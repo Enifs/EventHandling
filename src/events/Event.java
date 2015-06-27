@@ -50,6 +50,11 @@ public abstract class Event
 	public static void disable(Class eventClass)
 	{
 		Event.disabledEvents.add(eventClass);
+
+		if (EventControlPanel.consoleLogging)
+		{
+			System.out.println("Disabling " + eventClass.getName());
+		}
 	}
 
 
@@ -60,6 +65,10 @@ public abstract class Event
 	 */
 	public static void enable(Class eventClass)
 	{
+		if (EventControlPanel.consoleLogging)
+		{
+			System.out.println("Enabling " + eventClass.getName());
+		}
 		Event.disabledEvents.remove(eventClass);
 	}
 

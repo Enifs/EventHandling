@@ -37,6 +37,11 @@ public class EventControlPanel
 		EventControlPanel.eventThread.start();
 
 		EventControlPanel.events.clear();
+
+		if (consoleLogging)
+		{
+			System.out.println("ECP starts in " + EventControlPanel.eventThread.getName());
+		}
 	}
 
 
@@ -47,6 +52,11 @@ public class EventControlPanel
 	{
 		EventControlPanel.masterEventHandler.dispatcher.clearAllRegisteredEvents();
 		EventControlPanel.stop = true;
+
+		if (consoleLogging)
+		{
+			System.out.println("ECP stops in " + EventControlPanel.eventThread.getName());
+		}
 	}
 
 
@@ -119,7 +129,13 @@ public class EventControlPanel
 	@Override
 	protected void finalize() throws Throwable
 	{
+		if (consoleLogging)
+		{
+			System.out.println("Finalizing ECP in " + EventControlPanel.eventThread.getName());
+		}
+
 		super.finalize();
+
 		EventControlPanel.stopEventHandling();
 		EventControlPanel.masterEventHandler.clearAllRegularEvents();
 		EventControlPanel.eventThread.stop();

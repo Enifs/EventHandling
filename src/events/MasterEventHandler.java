@@ -16,7 +16,7 @@ public class MasterEventHandler implements Runnable
 	@Override
 	public void run()
 	{
-		while(!EventControlPanel.stop || EventControlPanel.hasEvents())
+		while(this.running || EventControlPanel.hasEvents())
 		{
 			if (EventControlPanel.hasEvents())
 			{
@@ -26,10 +26,14 @@ public class MasterEventHandler implements Runnable
 				{
 					EventControlPanel.print(event.getClass() +
 						" is being handled in " +
-						EventControlPanel.eventThread.getName() +
+						Thread.currentThread().getName() +
 						". " +
 						"< " + event.toString() + " >");
-					event.getEventHandler().handleEvent(event);
+
+					synchronized (event.getEventHandler())
+					{
+						event.getEventHandler().handleEvent(event);
+					}
 				}
 			}
 
@@ -44,6 +48,8 @@ public class MasterEventHandler implements Runnable
 				e.printStackTrace();
 			}
 		}
+
+		EventControlPanel.print(Thread.currentThread().getName() + " stops running.");
 	}
 
 
@@ -56,4 +62,5 @@ public class MasterEventHandler implements Runnable
 	}
 
 	protected RegularEventDispatcher dispatcher = new RegularEventDispatcher();
+	public boolean running = true;
 }

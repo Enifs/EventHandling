@@ -12,47 +12,8 @@ import events.EventControlPanel;
 /**
  * This class manages regular events.
  */
-public class RegularEventDispatcher implements Runnable
+public class RegularEventDispatcher
 {
-	@Override
-	public void run()
-	{
-		while(!EventControlPanel.stop)
-		{
-			if (!this.treeSet.isEmpty())
-			{
-				ExecutionTimeWrapper eventWrapper = treeSet.first();
-
-				if (eventWrapper.nextExecution <= System.currentTimeMillis())
-				{
-					treeSet.pollFirst();
-					eventWrapper.event.fire();
-
-					if (this.regularGameEvents.contains(eventWrapper.event))
-					{
-						treeSet.add(planNextExecution(eventWrapper.event));
-					}
-				}
-				else
-				{
-					long sleepTime = eventWrapper.nextExecution - System.currentTimeMillis();
-
-					if (sleepTime > 0)
-					{
-						try
-						{
-							Thread.sleep(sleepTime);
-						}
-						catch (InterruptedException e)
-						{
-							e.printStackTrace();
-						}
-					}
-				}
-			}
-		}
-	}
-
 	public void registerEvent(RegularEvent event)
 	{
 		this.regularGameEvents.add(event);

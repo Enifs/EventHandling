@@ -19,7 +19,7 @@ public class EventQueue extends LinkedList<Event>
 		if (rv)
 		{
 			EventControlPanel.print(event.getClass().getSimpleName() + " fired in " +
-				EventControlPanel.eventThread.getName());
+				Thread.currentThread().getName());
 			super.offer(event);
 		}
 

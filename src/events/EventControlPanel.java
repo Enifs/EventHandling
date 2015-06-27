@@ -3,6 +3,8 @@
 
 package events;
 
+import java.security.spec.ECParameterSpec;
+
 import events.regularevents.RegularEvent;
 import events.regularevents.RegularEventDispatcher;
 
@@ -30,16 +32,18 @@ public class EventControlPanel
 	public void startEventHandling()
 	{
 		EventControlPanel.time = System.currentTimeMillis();
-		EventControlPanel.stop = false;
 		EventControlPanel.events = new EventQueue();
 
 		EventControlPanel.masterEventHandler = new MasterEventHandler();
 		EventControlPanel.eventThread = new Thread(masterEventHandler);
+		EventControlPanel.eventThread.setName(EventControlPanel.eventThread.getName() + " MEH");
 		EventControlPanel.eventThread.start();
+
+		EventControlPanel.print("Thread " + EventControlPanel.eventThread.getName() + " starts.");
 
 		EventControlPanel.events.clear();
 
-		EventControlPanel.print("ECP starts in " + EventControlPanel.eventThread.getName());
+		EventControlPanel.print("ECP starts in " + Thread.currentThread().getName());
 	}
 
 
@@ -49,9 +53,16 @@ public class EventControlPanel
 	public synchronized static void stopEventHandling()
 	{
 		EventControlPanel.masterEventHandler.dispatcher.clearAllRegisteredEvents();
-		EventControlPanel.stop = true;
+		EventControlPanel.masterEventHandler.running = false;
 
-		EventControlPanel.print("ECP stops in " + EventControlPanel.eventThread.getName());
+		EventControlPanel.print("Thread " + EventControlPanel.eventThread.getName() + " stop initialized. Events left " + EventControlPanel.events.size());
+
+		while (EventControlPanel.hasEvents())
+		{
+
+		}
+
+		EventControlPanel.print("ECP stops in " + Thread.currentThread().getName() + " Events left " + EventControlPanel.events.size() );
 	}
 
 
@@ -81,7 +92,7 @@ public class EventControlPanel
 	 */
 	public static void fireEvent(Event event)
 	{
-		if (!EventControlPanel.stop)
+		if (EventControlPanel.masterEventHandler.running)
 		{
 			EventControlPanel.events.offer(event);
 		}
@@ -132,11 +143,10 @@ public class EventControlPanel
 
 
 	public static Thread eventThread;
-	private static MasterEventHandler masterEventHandler;
+	public static MasterEventHandler masterEventHandler;
 	private static EventQueue events;
 
 	private static long time;
 
-	public static boolean stop = false;
 	protected static boolean consoleLogging = false;
 }

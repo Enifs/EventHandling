@@ -29,6 +29,7 @@ public class EventControlPanel
 	 */
 	public void startEventHandling()
 	{
+		EventControlPanel.time = System.currentTimeMillis();
 		EventControlPanel.stop = false;
 		EventControlPanel.events = new EventQueue();
 
@@ -38,10 +39,7 @@ public class EventControlPanel
 
 		EventControlPanel.events.clear();
 
-		if (consoleLogging)
-		{
-			System.out.println("ECP starts in " + EventControlPanel.eventThread.getName());
-		}
+		EventControlPanel.print("ECP starts in " + EventControlPanel.eventThread.getName());
 	}
 
 
@@ -53,10 +51,7 @@ public class EventControlPanel
 		EventControlPanel.masterEventHandler.dispatcher.clearAllRegisteredEvents();
 		EventControlPanel.stop = true;
 
-		if (consoleLogging)
-		{
-			System.out.println("ECP stops in " + EventControlPanel.eventThread.getName());
-		}
+		EventControlPanel.print("ECP stops in " + EventControlPanel.eventThread.getName());
 	}
 
 
@@ -114,6 +109,15 @@ public class EventControlPanel
 	}
 
 
+	public static void print(String string)
+	{
+		if (consoleLogging)
+		{
+			System.out.println(System.currentTimeMillis() - time + " " + string);
+		}
+	}
+
+
 	public static void toggleConsoleLogging()
 	{
 		if (EventControlPanel.consoleLogging)
@@ -127,9 +131,11 @@ public class EventControlPanel
 	}
 
 
-	private static Thread eventThread;
+	public static Thread eventThread;
 	private static MasterEventHandler masterEventHandler;
 	private static EventQueue events;
+
+	private static long time;
 
 	public static boolean stop = false;
 	protected static boolean consoleLogging = false;

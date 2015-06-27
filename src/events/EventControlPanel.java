@@ -126,21 +126,6 @@ public class EventControlPanel
 		}
 	}
 
-	@Override
-	protected void finalize() throws Throwable
-	{
-		if (consoleLogging)
-		{
-			System.out.println("Finalizing ECP in " + EventControlPanel.eventThread.getName());
-		}
-
-		super.finalize();
-
-		EventControlPanel.stopEventHandling();
-		EventControlPanel.masterEventHandler.clearAllRegularEvents();
-		EventControlPanel.eventThread.stop();
-	}
-
 
 	private static Thread eventThread;
 	private static MasterEventHandler masterEventHandler;

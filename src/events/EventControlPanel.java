@@ -42,6 +42,7 @@ public class EventControlPanel
 		EventControlPanel.print("Thread " + EventControlPanel.eventThread.getName() + " starts.");
 
 		EventControlPanel.events.clear();
+		Event.enableAll();
 
 		EventControlPanel.print("ECP starts in " + Thread.currentThread().getName());
 	}
@@ -92,7 +93,11 @@ public class EventControlPanel
 	 */
 	public static void fireEvent(Event event)
 	{
-		if (EventControlPanel.masterEventHandler.running)
+		boolean shouldPause =
+			EventControlPanel.isPaused() &&
+				!Event.isInPauseExceptions(event.getClass());
+
+		if (EventControlPanel.masterEventHandler.running && !shouldPause)
 		{
 			EventControlPanel.events.offer(event);
 		}
@@ -141,10 +146,41 @@ public class EventControlPanel
 		}
 	}
 
+	public static void pause()
+	{
+		synchronized (EventControlPanel.events)
+		{
+			EventControlPanel.pause = true;
+
+			EventControlPanel.pauseBackup = EventControlPanel.events;
+			EventControlPanel.events = new EventQueue();
+		}
+	}
+
+
+	public static void unPause()
+	{
+		synchronized (EventControlPanel.events)
+		{
+			EventControlPanel.pause = true;
+			EventControlPanel.events = EventControlPanel.pauseBackup;
+			EventControlPanel.pauseBackup = null;
+		}
+	}
+
+	public static boolean isPaused()
+	{
+		return EventControlPanel.pause;
+	}
+
+
+	private static boolean pause = false;
 
 	public static Thread eventThread;
 	public static MasterEventHandler masterEventHandler;
 	private static EventQueue events;
+
+	private static EventQueue pauseBackup;
 
 	private static long time;
 

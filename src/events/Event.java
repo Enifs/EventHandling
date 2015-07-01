@@ -77,7 +77,40 @@ public abstract class Event
 		return !Event.disabledEvents.contains(eventClass);
 	}
 
+
+	public static void enableAll()
+	{
+		Event.disabledEvents.clear();
+	}
+
+
+	public static void addPauseException(Class eventClass)
+	{
+		Event.pauseExceptions.add(eventClass);
+	}
+
+
+	public static void removePauseException(Class eventClass)
+	{
+		Event.pauseExceptions.remove(eventClass);
+	}
+
+
+	public static void clearPauseExceptions()
+	{
+		Event.pauseExceptions.clear();
+	}
+
+
+	public static boolean isInPauseExceptions(Class eventClass)
+	{
+		return Event.pauseExceptions.contains(eventClass);
+	}
+
+
 	private EventHandler eventHandler = new EmptyEventHandler();
 
 	private static HashSet<Class> disabledEvents = new HashSet<Class>();
+
+	private static HashSet<Class> pauseExceptions = new HashSet<Class>();
 }

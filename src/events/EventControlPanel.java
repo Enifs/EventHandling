@@ -111,7 +111,14 @@ public class EventControlPanel
 	 */
 	public static boolean hasEvents()
 	{
-		return !EventControlPanel.events.isEmpty();
+		boolean rv = false;
+
+		if (EventControlPanel.events != null)
+		{
+			rv = !EventControlPanel.events.isEmpty();
+		}
+
+		return rv;
 	}
 
 
@@ -162,7 +169,7 @@ public class EventControlPanel
 	{
 		synchronized (EventControlPanel.events)
 		{
-			EventControlPanel.pause = true;
+			EventControlPanel.pause = false;
 			EventControlPanel.events = EventControlPanel.pauseBackup;
 			EventControlPanel.pauseBackup = null;
 		}

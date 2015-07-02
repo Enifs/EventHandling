@@ -97,7 +97,7 @@ public class EventControlPanel
 			EventControlPanel.isPaused() &&
 				!Event.isInPauseExceptions(event.getClass());
 
-		if (EventControlPanel.masterEventHandler.running && !shouldPause)
+		if (EventControlPanel.masterEventHandler.running && !shouldPause && EventControlPanel.events != null)
 		{
 			EventControlPanel.events.offer(event);
 		}
@@ -167,7 +167,7 @@ public class EventControlPanel
 
 	public static void unPause()
 	{
-		synchronized (EventControlPanel.events)
+		synchronized (EventControlPanel.pauseBackup)
 		{
 			EventControlPanel.pause = false;
 			EventControlPanel.events = EventControlPanel.pauseBackup;

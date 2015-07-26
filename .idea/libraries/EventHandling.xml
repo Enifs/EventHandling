@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="EventHandling">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/jar/EventHandling.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

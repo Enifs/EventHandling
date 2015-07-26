@@ -26,6 +26,27 @@ public class RegularEventDispatcher
 		this.regularGameEvents.remove(event);
 	}
 
+
+	/**
+	 * This method allows un unregister regular event by it class.
+	 *
+	 * This method is not optimized, and it slow. If you have many regular events, try to use different
+	 * method.
+	 *
+	 * @param regularEventClass
+	 */
+	public void unregisterEventClass(Class regularEventClass)
+	{
+		for (RegularEvent event : this.regularGameEvents)
+		{
+			if (event.getClass().equals(regularEventClass))
+			{
+				this.unregisterEvent(event);
+			}
+		}
+	}
+
+
 	public ExecutionTimeWrapper planNextExecution(RegularEvent event)
 	{
 		return new ExecutionTimeWrapper(event, System.currentTimeMillis() + event.frequency);

@@ -6,6 +6,7 @@ package events.regularevents;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
+import events.Event;
 import events.EventControlPanel;
 
 
@@ -70,6 +71,27 @@ public class RegularEventDispatcher
 				}
 			}
 		}
+	}
+
+
+	/**
+	 * This method returns Event that correspond given regular event class.
+	 * @param regularEventClass
+	 * @return
+	 */
+	public Event getRegularEventByClass(Class regularEventClass)
+	{
+		Event returnEvent = null;
+
+		for (Event event : this.regularGameEvents)
+		{
+			if (event.getClass().equals(regularEventClass))
+			{
+				returnEvent = event;
+			}
+		}
+
+		return returnEvent;
 	}
 
 

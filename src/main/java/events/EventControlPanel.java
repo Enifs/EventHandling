@@ -101,6 +101,20 @@ public class EventControlPanel
 	}
 
 
+	/**
+	 * This method returns Event that correspond given regular event class.
+	 * @param regularEventClass
+	 * @return
+	 */
+	public static Event getRegularEventByClass(Class regularEventClass)
+	{
+		Event returnEvent = null;
+
+		returnEvent = EventControlPanel.masterEventHandler.dispatcher.getRegularEventByClass(regularEventClass);
+
+		return returnEvent;
+	}
+
 
 	/**
 	 * This method queues ap an event to be executed as soon as possible.

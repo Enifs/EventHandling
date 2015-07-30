@@ -88,6 +88,35 @@ public class EventControlPanel
 
 
 	/**
+	 * This class allows to disable regular event by class.
+	 *
+	 * This method is not optimized, and it slow. If you have many regular events, try to use different
+	 * method.
+	 *
+	 * @param regularEventClass
+	 */
+	public static void unRegisterRegularEventClass(Class regularEventClass)
+	{
+		EventControlPanel.masterEventHandler.dispatcher.unregisterEventClass(regularEventClass);
+	}
+
+
+	/**
+	 * This method returns Event that correspond given regular event class.
+	 * @param regularEventClass
+	 * @return
+	 */
+	public static Event getRegularEventByClass(Class regularEventClass)
+	{
+		Event returnEvent = null;
+
+		returnEvent = EventControlPanel.masterEventHandler.dispatcher.getRegularEventByClass(regularEventClass);
+
+		return returnEvent;
+	}
+
+
+	/**
 	 * This method queues ap an event to be executed as soon as possible.
 	 * @param event Event to queue up for execution.
 	 */

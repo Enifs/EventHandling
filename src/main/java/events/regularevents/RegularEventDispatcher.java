@@ -6,6 +6,7 @@ package events.regularevents;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
+import events.Event;
 import events.EventControlPanel;
 
 
@@ -25,6 +26,27 @@ public class RegularEventDispatcher
 	{
 		this.regularGameEvents.remove(event);
 	}
+
+
+	/**
+	 * This method allows un unregister regular event by it class.
+	 *
+	 * This method is not optimized, and it slow. If you have many regular events, try to use different
+	 * method.
+	 *
+	 * @param regularEventClass
+	 */
+	public void unregisterEventClass(Class regularEventClass)
+	{
+		for (RegularEvent event : this.regularGameEvents)
+		{
+			if (event.getClass().equals(regularEventClass))
+			{
+				this.unregisterEvent(event);
+			}
+		}
+	}
+
 
 	public ExecutionTimeWrapper planNextExecution(RegularEvent event)
 	{
@@ -49,6 +71,27 @@ public class RegularEventDispatcher
 				}
 			}
 		}
+	}
+
+
+	/**
+	 * This method returns Event that correspond given regular event class.
+	 * @param regularEventClass
+	 * @return
+	 */
+	public Event getRegularEventByClass(Class regularEventClass)
+	{
+		Event returnEvent = null;
+
+		for (Event event : this.regularGameEvents)
+		{
+			if (event.getClass().equals(regularEventClass))
+			{
+				returnEvent = event;
+			}
+		}
+
+		return returnEvent;
 	}
 
 

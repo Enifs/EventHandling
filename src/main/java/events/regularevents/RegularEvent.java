@@ -25,5 +25,26 @@ public abstract class RegularEvent extends Event
 		this.frequency = frequency;
 	}
 
+
+	/**
+	 * This method change regular event frequency.
+	 * @param frequency
+	 */
+	public void setFrequency(long frequency)
+	{
+		this.frequency = frequency;
+	}
+
+
+	/**
+	 * This method returns regular event frequency.
+	 * @return
+	 */
+	public long getFrequency()
+	{
+		return this.frequency;
+	}
+
+
 	long frequency;
 }

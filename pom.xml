@@ -14,9 +14,9 @@
     </properties>
 
     <scm>
-        <connection>scm:git:https://github.com/BONNe/EventHandling.git</connection>
-        <url>scm:git:https://github.com/BONNe/EventHandling.git</url>
-        <developerConnection>scm:git:https://github.com/BONNe/EventHandling.git</developerConnection>
+        <connection>scm:git:https://github.com/Enifs/EventHandling.git</connection>
+        <url>scm:git:https://github.com/Enifs/EventHandling.git</url>
+        <developerConnection>scm:git:https://github.com/Enifs/EventHandling.git</developerConnection>
       <tag>HEAD</tag>
   </scm>
 

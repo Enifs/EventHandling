@@ -60,7 +60,12 @@ public class EventControlPanel
 
 		while (EventControlPanel.hasEvents())
 		{
+			long time = System.currentTimeMillis();
 
+			if (System.currentTimeMillis() - time > 2000)
+			{
+				EventControlPanel.events.clear();
+			}
 		}
 
 		EventControlPanel.print("ECP stops in " + Thread.currentThread().getName() + " Events left " + EventControlPanel.events.size() );

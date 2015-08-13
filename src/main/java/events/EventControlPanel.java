@@ -58,10 +58,10 @@ public class EventControlPanel
 
 		EventControlPanel.print("Thread " + EventControlPanel.eventThread.getName() + " stop initialized. Events left " + EventControlPanel.events.size());
 
+		long time = System.currentTimeMillis();
+
 		while (EventControlPanel.hasEvents())
 		{
-			long time = System.currentTimeMillis();
-
 			if (System.currentTimeMillis() - time > 2000)
 			{
 				EventControlPanel.events.clear();

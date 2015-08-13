@@ -4,10 +4,11 @@
 package events.regularevents;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.TreeSet;
 
 import events.Event;
-import events.EventControlPanel;
 
 
 /**
@@ -17,14 +18,23 @@ public class RegularEventDispatcher
 {
 	public void registerEvent(RegularEvent event)
 	{
-		this.regularGameEvents.add(event);
-		event.fire();
-		this.treeSet.add(planNextExecution(event));
+		if (!this.regularEventSet.contains(event))
+		{
+			this.regularGameEvents.add(event);
+			this.regularEventSet.add(event);
+			event.fire();
+			this.treeSet.add(planNextExecution(event));
+		}
 	}
+
 
 	public void unregisterEvent(RegularEvent event)
 	{
-		this.regularGameEvents.remove(event);
+		if (this.regularEventSet.contains(event))
+		{
+			this.regularEventSet.remove(event);
+			this.regularGameEvents.remove(event);
+		}
 	}
 
 
@@ -99,10 +109,13 @@ public class RegularEventDispatcher
 	{
 		this.treeSet.clear();
 		this.regularGameEvents.clear();
+		this.regularEventSet.clear();
 	}
 
-	ArrayList<RegularEvent> regularGameEvents = new ArrayList<RegularEvent>();
-	TreeSet<ExecutionTimeWrapper> treeSet = new TreeSet<ExecutionTimeWrapper>();
+
+	// ---------------------------------------------------------------------
+	// Section: Private classes
+	// ---------------------------------------------------------------------
 
 
 	private class ExecutionTimeWrapper implements Comparable<ExecutionTimeWrapper>
@@ -124,4 +137,16 @@ public class RegularEventDispatcher
 			return Long.compare(this.nextExecution, o.nextExecution);
 		}
 	}
+
+
+	// ---------------------------------------------------------------------
+	// Section: Variables
+	// ---------------------------------------------------------------------
+
+
+	private ArrayList<RegularEvent> regularGameEvents = new ArrayList<RegularEvent>();
+
+	private Set<RegularEvent> regularEventSet = new HashSet<RegularEvent>();
+
+	private TreeSet<ExecutionTimeWrapper> treeSet = new TreeSet<ExecutionTimeWrapper>();
 }

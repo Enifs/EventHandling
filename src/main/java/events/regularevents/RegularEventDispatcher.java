@@ -24,6 +24,18 @@ public class RegularEventDispatcher
 			this.regularEventSet.add(event);
 			event.fire();
 			this.treeSet.add(planNextExecution(event));
+
+			// This 1 milisecond sleep prevents situation where an event is not put in
+			// tree set for some reason.
+
+			try
+			{
+				Thread.sleep(1);
+			}
+			catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -58,7 +70,7 @@ public class RegularEventDispatcher
 	}
 
 
-	public ExecutionTimeWrapper planNextExecution(RegularEvent event)
+	private ExecutionTimeWrapper planNextExecution(RegularEvent event)
 	{
 		return new ExecutionTimeWrapper(event, System.currentTimeMillis() + event.frequency);
 	}
@@ -79,6 +91,11 @@ public class RegularEventDispatcher
 				{
 					treeSet.add(planNextExecution(eventWrapper.event));
 				}
+			}
+
+			if (this.treeSet.size() < this.regularGameEvents.size())
+			{
+				System.out.println("Event missing from TreeSet!");
 			}
 		}
 	}

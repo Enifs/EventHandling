@@ -3,10 +3,7 @@
 
 package events.regularevents;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 import events.Event;
 
@@ -20,7 +17,7 @@ public class RegularEventDispatcher
 	{
 		if (!this.regularEventSet.contains(event))
 		{
-			this.regularGameEvents.add(event);
+			this.regularEvents.add(event);
 			this.regularEventSet.add(event);
 			event.fire();
 			this.treeSet.add(planNextExecution(event));
@@ -28,14 +25,14 @@ public class RegularEventDispatcher
 			// This 1 milisecond sleep prevents situation where an event is not put in
 			// tree set for some reason.
 
-			try
-			{
-				Thread.sleep(1);
-			}
-			catch (InterruptedException e)
-			{
-				e.printStackTrace();
-			}
+//			try
+//			{
+//				Thread.sleep(1);
+//			}
+//			catch (InterruptedException e)
+//			{
+//				e.printStackTrace();
+//			}
 		}
 	}
 
@@ -45,7 +42,7 @@ public class RegularEventDispatcher
 		if (this.regularEventSet.contains(event))
 		{
 			this.regularEventSet.remove(event);
-			this.regularGameEvents.remove(event);
+			this.regularEvents.remove(event);
 		}
 	}
 
@@ -60,7 +57,7 @@ public class RegularEventDispatcher
 	 */
 	public void unregisterEventClass(Class regularEventClass)
 	{
-		for (RegularEvent event : this.regularGameEvents)
+		for (RegularEvent event : this.regularEvents)
 		{
 			if (event.getClass().equals(regularEventClass))
 			{
@@ -87,15 +84,28 @@ public class RegularEventDispatcher
 				treeSet.pollFirst();
 				eventWrapper.event.fire();
 
-				if (this.regularGameEvents.contains(eventWrapper.event))
+				if (this.regularEvents.contains(eventWrapper.event))
 				{
 					treeSet.add(planNextExecution(eventWrapper.event));
 				}
 			}
 
-			if (this.treeSet.size() < this.regularGameEvents.size())
+			if (this.treeSet.size() < this.regularEvents.size())
 			{
-				System.out.println("Event missing from TreeSet!");
+				Set<Event> treeSetEvents = new HashSet<>();
+
+				for (ExecutionTimeWrapper wrapper : this.treeSet)
+				{
+					treeSetEvents.add(wrapper.event);
+				}
+
+				for (RegularEvent event : this.regularEvents)
+				{
+					if (!treeSetEvents.contains(event))
+					{
+						this.treeSet.add(this.planNextExecution(event));
+					}
+				}
 			}
 		}
 	}
@@ -110,7 +120,7 @@ public class RegularEventDispatcher
 	{
 		Event returnEvent = null;
 
-		for (Event event : this.regularGameEvents)
+		for (Event event : this.regularEvents)
 		{
 			if (event.getClass().equals(regularEventClass))
 			{
@@ -125,7 +135,7 @@ public class RegularEventDispatcher
 	public void clearAllRegisteredEvents()
 	{
 		this.treeSet.clear();
-		this.regularGameEvents.clear();
+		this.regularEvents.clear();
 		this.regularEventSet.clear();
 	}
 
@@ -161,7 +171,7 @@ public class RegularEventDispatcher
 	// ---------------------------------------------------------------------
 
 
-	private ArrayList<RegularEvent> regularGameEvents = new ArrayList<RegularEvent>();
+	private ArrayList<RegularEvent> regularEvents = new ArrayList<RegularEvent>();
 
 	private Set<RegularEvent> regularEventSet = new HashSet<RegularEvent>();
 

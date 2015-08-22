@@ -46,5 +46,22 @@ public abstract class RegularEvent extends Event
 	}
 
 
+	/**
+	 * This method disable Regular event class.
+	 */
+	public void disable()
+	{
+		disable(this.getClass());
+	}
+
+
+	/**
+	 * This method enable Regular event class.
+	 */
+	public void enable()
+	{
+		enable(this.getClass());
+	}
+
 	long frequency;
 }
